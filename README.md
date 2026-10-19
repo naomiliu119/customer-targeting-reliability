@@ -78,3 +78,5 @@ The reference environment uses **Python 3.13.16**. Versions of the five main lib
 5. Check the primary final-test result against the saved summary: an estimated advantage of **$175.27 per 1,000 eligible customers**, an approximate 95% interval of **−$72.45 to $422.99**, and a bootstrap interval of **−$51.45 to $447.32**.
 
 Saved comparison tables and the figure are in `results/`.
+
+Reproducibility check: On October 18, 2026, the notebook was rerun from beginning to end after restarting the Colab session. The primary estimate, approximate and bootstrap confidence intervals, and dataset SHA-256 checksum matched the reported results. This check used the reference package versions listed above.
