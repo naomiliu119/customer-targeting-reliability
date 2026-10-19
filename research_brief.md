@@ -34,6 +34,16 @@ Both intervals include zero. The final test therefore does not establish that in
 
 The incremental-revenue rule’s estimated advantage was negative in validation and positive in final testing. This difference illustrates the uncertainty surrounding performance estimates in these samples.
 
+## Exploratory extension: Comparing targeting decisions directly
+
+After examining the original test results, I compared incremental-revenue targeting directly with historical-spending and predicted-revenue targeting at the fixed 25% contact rate. I retained the original fitted models and selected audiences, evaluating paired revenue differences using both inverse-probability and augmented inverse-probability estimators.
+
+Under the augmented estimator, incremental targeting’s estimated revenue difference was −$52.69 per 1,000 eligible customers relative to historical spending (approximate 95% CI: −$342.26 to $236.88) and −$7.41 relative to predicted revenue (−$314.27 to $299.45). Both evaluation methods and their stratified bootstrap sensitivity checks produced intervals containing zero. Adjustment changed the estimates modestly and provided little improvement in precision.
+
+The rules nevertheless selected substantially different audiences. Incremental and historical-spending targeting shared 1,288 of 2,130 selections; each selected 842 customers excluded by the other. Incremental-only customers had lower mean prior spending ($190.01 versus $485.75), less recent purchases, and more frequent women’s merchandise purchase history (94.54% versus 43.11%).
+
+This extension documents a substantial reallocation of contacts without establishing an accompanying revenue benefit. Customer profiles are descriptive, comparisons are exploratory, and uncertainty calculations hold fitted models and selection labels fixed.
+
 ## Limitations and implications
 
 Purchasing was rare: only 578 of the original 64,000 customers purchased. Revenue estimates consequently depend on relatively few observed transactions. The models also showed limited predictive performance in validation.
