@@ -69,4 +69,12 @@ The analysis covers one historical experiment, a two-week outcome window, and a 
 
 ## Running the analysis
 
-Open the notebook in Google Colab, run cells in order, and upload the original CSV when prompted. The analysis uses pandas, NumPy, SciPy, scikit-learn, and Matplotlib.
+The reference environment uses **Python 3.13.16**. Versions of the five main libraries are recorded in `requirements.txt`.
+
+1. Obtain the original CSV using the source and checksum documented in `data/README.md`.
+2. Open `notebooks/01_targeting_analysis.ipynb` in Google Colab.
+3. Upload `requirements.txt` through Colab’s Files panel. Before running the analysis, install the recorded dependencies in a setup cell using `%pip install -r /content/requirements.txt`.
+4. Restart the Colab session after installation, then run the analysis notebook from the beginning. Upload the original CSV when prompted.
+5. Check the primary final-test result against the saved summary: an estimated advantage of **$175.27 per 1,000 eligible customers**, an approximate 95% interval of **−$72.45 to $422.99**, and a bootstrap interval of **−$51.45 to $447.32**.
+
+Saved comparison tables and the figure are in `results/`.
