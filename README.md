@@ -67,6 +67,25 @@ The analysis covers one historical experiment, a two-week outcome window, and a 
 - `notebooks/01_targeting_analysis.ipynb`: data checks, modeling, evaluation, and interpretation.
 - `results/`: comparison tables, primary test summary, and figure.
 
+## Exploratory extension: Direct comparisons and customer selection
+
+After inspecting the original test results, I added an exploratory comparison of incremental-revenue targeting against historical-spending and predicted-revenue targeting. Models, targeting selections, and the 25% contact rate remained fixed.
+
+The extension compares inverse-probability weighting with augmented inverse-probability weighting. Under the augmented estimator, revenue differences per 1,000 eligible customers were:
+
+| Comparison | Estimated difference | Approximate 95% CI |
+|---|---:|---:|
+| Incremental minus historical spending | −$52.69 | −$342.26 to $236.88 |
+| Incremental minus predicted revenue | −$7.41 | −$314.27 to $299.45 |
+
+Both approximate and stratified bootstrap intervals included zero under both evaluation methods. These exploratory comparisons do not establish superiority or equivalence.
+
+Incremental and historical-spending targeting shared 1,288 of their 2,130 selected customers. Each selected 842 customers excluded by the other—39.5% of its audience. Incremental-only customers had lower prior spending and more frequent women’s merchandise purchase history. These are descriptive audience differences, not causal explanations.
+
+The extension demonstrates substantial changes in contact allocation without an established revenue improvement. Uncertainty calculations hold fitted models and selection labels fixed.
+
+See the [extension results and methodological notes](results/targeting_extension_results/) and the [complete analysis notebook](notebooks/01_targeting_analysis.ipynb).
+
 ## Running the analysis
 
 The reference environment uses **Python 3.13.16**. Versions of the five main libraries are recorded in `requirements.txt`.
