@@ -1,5 +1,0 @@
-Estimator,Comparison,"Revenue difference per 1,000",Bootstrap 95% CI lower,Bootstrap 95% CI upper
-IPW,Incremental minus historical spending,-37.35304470256952,-321.24422151824473,252.92045054558247
-IPW,Incremental minus predicted revenue,-9.050803707614689,-318.2098439516602,287.8429543587934
-AIPW,Incremental minus historical spending,-52.68601559238086,-338.91179730436085,236.51253640226372
-AIPW,Incremental minus predicted revenue,-7.4077383500071505,-315.70060676377403,289.9711751216936
