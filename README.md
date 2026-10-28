@@ -1,101 +1,44 @@
 # Customer Targeting and Revenue Uncertainty
 
-An independent analysis of the public Hillstrom email experiment examining whether customer-targeting models improve incremental revenue over random selection.
+Independent analysis by Naomi Liu of Kevin Hillstrom's public randomized email experiment.
 
-## Research question
+**Question:** At the same contact budget, do learned targeting rules generate more additional revenue than random selection or simple benchmarks?
 
-At the same contact rate, does targeting customers by estimated incremental revenue outperform random targeting and simple predictive benchmarks?
+## Findings
+
+The original analysis compares historical spending, predicted purchase probability, predicted spending, and estimated incremental revenue. The primary comparison uses men's-merchandise email versus no email, with 42,613 customers split into training, validation, and test samples.
+
+At the nominal 25% contact rate, incremental-revenue targeting's estimated advantage over expected random targeting is **$175.27 per 1,000 eligible customers**, with an approximate 95% interval of **-$72.45 to $422.99**. The corresponding bootstrap interval is **-$51.45 to $447.32**. These results leave the relative revenue benefit unresolved.
+
+Later exploratory checks examine:
+
+- **Training sensitivity:** across 200 training resamples, the median retained share of the original audience is 70.8%. These are selection-stability summaries, not revenue confidence intervals.
+- **Ridge settings:** training-only cross-validation produces very small prediction-error improvements without establishing a targeting-revenue benefit.
+- **Message matching:** assigning email versions using prior merchandise purchases shows no clear benefit over common versions within the same fixed audience.
+
+The later checks were developed after the original test outcomes were examined. They extend the same experiment and do not provide independent confirmation. Revenue is not profit; costs and margins are unavailable.
+
+## Where to start
+
+| File or folder | Purpose |
+|---|---|
+| [Notebook 01](notebooks/01_targeting_analysis.ipynb) | Original data checks, models, and evaluation |
+| [Notebook 02](notebooks/02_exploratory_checks.ipynb) | Later exploratory results and figures |
+| [Research brief](research_brief.md) | Research question, design, findings, and limits |
+| [Analysis scripts and instructions](analysis/README.md) | Reproduce the later checks |
+| [Original results](results/) / [Later results](results/exploratory/) | Exported tables and figures |
+| [Data instructions](data/README.md) | Public source and dataset checksum |
+
+## Run the notebooks
+
+[Open notebook 01 in Colab](https://colab.research.google.com/github/naomiliu119/customer-targeting-reliability/blob/main/notebooks/01_targeting_analysis.ipynb) | [Open notebook 02 in Colab](https://colab.research.google.com/github/naomiliu119/customer-targeting-reliability/blob/main/notebooks/02_exploratory_checks.ipynb)
+
+Notebook 01 uses the recorded environment in `requirements.txt`. In Colab, upload that file, install it with `%pip install -r /content/requirements.txt`, restart the session, and run the notebook in order. Upload the verified public CSV when prompted. The original reference environment uses Python 3.13.16.
+
+Notebook 02 reviews saved outputs by default. Its first Colab cell downloads this repository when supporting files are absent. To rerun the later checks, supply the verified CSV and enable `RECOMPUTE`; the [analysis guide](analysis/README.md) gives the commands and verification scope.
 
 ## Data
 
-The original dataset contains 64,000 customers randomly assigned to a men’s merchandise email, a women’s merchandise email, or no email. Outcomes were measured over two weeks.
+The source experiment assigned 64,000 previous purchasers to men's-merchandise email, women's-merchandise email, or no email, with two-week outcomes. Merchandise labels do not identify gender. Nonpurchasers remain in the revenue analyses with zero spending. No employer records are used.
 
-The primary analysis compares men’s email with no email, using 42,613 customers. The original experiment and data collection were conducted by the dataset provider.
-
-Source: [Kevin Hillstrom’s MineThatData Email Analytics Challenge](https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html).
-
-## Research design
-
-- Training: 25,567 customers; validation: 8,523; final test: 8,523.
-- Treatment-stratified 60/20/20 split with random seed 42.
-- Inputs: prior spending, purchase recency, merchandise-purchase history, new-customer status, purchasing channel, and location category.
-- Standardization and categorical encoding fitted within training pipelines.
-- Primary contact rate: 25%; secondary rates: 10% and 50%.
-- Final test comparisons fixed after validation and before examining test outcomes.
-
-## Targeting strategies
-
-1. **Historical spending:** rank customers by prior-year spending.
-2. **Purchase probability:** logistic regression fitted to emailed training customers.
-3. **Predicted revenue:** ridge regression fitted to emailed training customers.
-4. **Incremental revenue:** difference between separate email and control ridge-regression predictions.
-5. **Random targeting:** expected performance of random selection at the same contact rate.
-
-Ridge regressions use alpha = 1. All spending analyses retain nonpurchasers and their zero spending.
-
-## Evaluation
-
-Policy gains are estimated using inverse-probability weighting and the known experimental assignment probabilities. Results are expressed as additional revenue per 1,000 eligible customers relative to emailing nobody.
-
-Comparisons with random targeting use paired approximate 95% confidence intervals. The primary comparison also includes a 5,000-resample stratified bootstrap sensitivity check, holding fitted models and selection labels fixed.
-
-Method reference: [GRF guide to policy evaluation](https://grf-labs.github.io/grf/articles/maq.html).
-
-## Main findings
-
-At the primary 25% contact rate, final-test estimated additional revenue was:
-
-| Strategy | Revenue per 1,000 eligible customers |
-|---|---:|
-| Random targeting | $166.57 |
-| Incremental-revenue targeting | $341.84 |
-
-The estimated advantage was **$175.27**, with an approximate 95% confidence interval of **−$72.45 to $422.99**. The bootstrap interval was **−$51.45 to $447.32**.
-
-Both intervals include zero. The held-out test therefore does not establish an advantage over random targeting.
-
-All secondary final-test comparisons also had pointwise intervals spanning zero. The incremental rule’s estimated advantage changed direction between validation and final testing.
-
-## Limitations
-
-Purchases are rare: only 578 customers purchased in the original dataset. Revenue estimates can therefore depend substantially on a small number of transactions.
-
-The analysis covers one historical experiment, a two-week outcome window, and a limited set of models. Confidence intervals describe evaluation uncertainty for fixed models; they do not capture the full uncertainty from model training. Costs are unavailable, so results concern revenue rather than profit.
-
-## Repository contents
-
-- `notebooks/01_targeting_analysis.ipynb`: data checks, modeling, evaluation, and interpretation.
-- `results/`: comparison tables, primary test summary, and figure.
-
-## Exploratory extension: Direct comparisons and customer selection
-
-After inspecting the original test results, I added an exploratory comparison of incremental-revenue targeting against historical-spending and predicted-revenue targeting. Models, targeting selections, and the 25% contact rate remained fixed.
-
-The extension compares inverse-probability weighting with augmented inverse-probability weighting. Under the augmented estimator, revenue differences per 1,000 eligible customers were:
-
-| Comparison | Estimated difference | Approximate 95% CI |
-|---|---:|---:|
-| Incremental minus historical spending | −$52.69 | −$342.26 to $236.88 |
-| Incremental minus predicted revenue | −$7.41 | −$314.27 to $299.45 |
-
-Both approximate and stratified bootstrap intervals included zero under both evaluation methods. These exploratory comparisons do not establish superiority or equivalence.
-
-Incremental and historical-spending targeting shared 1,288 of their 2,130 selected customers. Each selected 842 customers excluded by the other—39.5% of its audience. Incremental-only customers had lower prior spending and more frequent women’s merchandise purchase history. These are descriptive audience differences, not causal explanations.
-
-The extension demonstrates substantial changes in contact allocation without an established revenue improvement. Uncertainty calculations hold fitted models and selection labels fixed.
-
-See the [extension results and methodological notes](results/targeting_extension_results/) and the [complete analysis notebook](notebooks/01_targeting_analysis.ipynb).
-
-## Running the analysis
-
-The reference environment uses **Python 3.13.16**. Versions of the five main libraries are recorded in `requirements.txt`.
-
-1. Obtain the original CSV using the source and checksum documented in `data/README.md`.
-2. Open `notebooks/01_targeting_analysis.ipynb` in Google Colab.
-3. Upload `requirements.txt` through Colab’s Files panel. Before running the analysis, install the recorded dependencies in a setup cell using `%pip install -r /content/requirements.txt`.
-4. Restart the Colab session after installation, then run the analysis notebook from the beginning. Upload the original CSV when prompted.
-5. Check the primary final-test result against the saved summary: an estimated advantage of **$175.27 per 1,000 eligible customers**, an approximate 95% interval of **−$72.45 to $422.99**, and a bootstrap interval of **−$51.45 to $447.32**.
-
-Saved comparison tables and the figure are in `results/`.
-
-Reproducibility check: On October 18, 2026, the notebook was rerun from beginning to end after restarting the Colab session. The primary estimate, approximate and bootstrap confidence intervals, and dataset SHA-256 checksum matched the reported results. This check used the reference package versions listed above.
+[Original experiment and data description](https://blog.minethatdata.com/2008/03/minethatdata-e-mail-analytics-and-data.html)

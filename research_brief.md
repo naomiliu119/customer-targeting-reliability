@@ -44,14 +44,34 @@ The rules nevertheless selected substantially different audiences. Incremental a
 
 This extension documents a substantial reallocation of contacts without establishing an accompanying revenue benefit. Customer profiles are descriptive, comparisons are exploratory, and uncertainty calculations hold fitted models and selection labels fixed.
 
+## Additional exploratory analyses
+
+These checks were developed after the original validation and test results were examined. They extend the same experiment and do not provide independent confirmation.
+
+### Sensitivity to training observations
+
+I refitted the two original ridge models across 200 bootstrap resamples drawn within the training assignment groups. Each refit selected 2,130 customers using the same test characteristics, without using test spending to choose recipients. The median retained share of the original audience was 70.8%. Of the original 2,130 selections, 524 were selected in fewer than half of the refits. These summaries measure changes in allocation; they are not revenue confidence intervals and do not establish that changed selections are costly.
+
+### Ridge-setting sensitivity
+
+Five-fold training-only cross-validation selected alpha=10,000 for both spending models from the original sensitivity grid. Spending prediction error improved by only about 0.03% for the no-email model and 0.05% for the email model. The selected rule retained 81.8% of the original audience at the main contact rate. Its estimated test advantage over the original rule was $43.04 per 1,000 eligible customers, with an approximate 95% interval of -$177.82 to $263.91. This does not establish a targeting-revenue improvement. A training-only follow-up checked larger penalties and a constant benchmark; those alternatives were not evaluated on test outcomes.
+
+### Matching email version to purchase history
+
+A separate extension uses all three assignment groups and fixes the audience at the 3,200 highest-spending customers in a combined evaluation sample of 12,801. The matching rule assigns the corresponding version to single-category buyers and an expected 50/50 mix to customers with both histories. It compares this rule with common men's, common women's, and mixed versions for the same audience. Every paired interval includes zero. The results do not establish an advantage from the specified matching rule, nor do they establish equivalence. Merchandise-purchase history does not identify gender.
+
+The [second notebook](notebooks/02_exploratory_checks.ipynb) reviews the saved outputs. The [analysis guide](analysis/README.md) documents the estimators, execution order, and verification scope. Scripts, exported results, and figures accompany both analyses.
+
 ## Limitations and implications
 
 Purchasing was rare: only 578 of the original 64,000 customers purchased. Revenue estimates consequently depend on relatively few observed transactions. The models also showed limited predictive performance in validation.
 
-The uncertainty calculations hold fitted models and selection labels fixed; they do not capture uncertainty from repeating the entire model-fitting and targeting procedure. Secondary comparisons are exploratory and use pointwise intervals. The analysis covers one campaign and the men’s-email versus no-email contrast. Revenue is not profit because campaign costs and contribution margins are unavailable.
+The uncertainty calculations hold fitted models and selection labels fixed; they do not capture uncertainty from repeating the entire model-fitting and targeting procedure. Secondary comparisons are exploratory and use pointwise intervals. The analysis covers one historical campaign. Its main comparison uses men’s email versus no email; the later message-version extension adds the women’s-email group. Revenue is not profit because campaign costs and contribution margins are unavailable.
 
 These findings support a cautious conclusion: a positive average marketing effect does not, by itself, demonstrate a reliable advantage from customer targeting. This study provides an evaluation of specified targeting rules in one public experiment, with uncertainty reported alongside estimated gains.
 
 ## Reproducibility
 
 The repository includes the analysis notebook, package versions, data-source instructions, dataset checksum, exported results, and comparison figure. A session restart and complete notebook rerun reproduced the reported primary results.
+
+The later scripts and saved results are separate additions. Notebook 02 reviews saved outputs by default; it does not refit models unless the optional regeneration mode is enabled. The independent verification scope and its limits are recorded in `analysis/README.md`.

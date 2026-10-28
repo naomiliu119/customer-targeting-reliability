@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local metadata and deterministic assignment exports
+.DS_Store
+results/exploratory/extended_split_assignments.csv
+results/exploratory/matching_policy_assignments.csv
+results/exploratory/ridge_cv_fold_assignments.csv
