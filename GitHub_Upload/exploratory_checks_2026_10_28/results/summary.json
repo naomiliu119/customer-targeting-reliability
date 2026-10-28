@@ -1,0 +1,69 @@
+{
+  "status": "Exploratory checks after original test outcomes were known; no source files or main manuscript modified",
+  "dataset_sha256": "0e5893329d8b93cefecc571777672028290ab69865718020c78c7284f291aece",
+  "alpha_grid": [
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0,
+    10000.0
+  ],
+  "cv_selection_criterion": "pooled out-of-fold spending MSE, separately by training treatment arm; no validation/test outcomes in selection",
+  "selected_alpha": {
+    "No E-Mail": 10000.0,
+    "Mens E-Mail": 10000.0
+  },
+  "cv_fold_seeds": {
+    "No E-Mail": 20261028,
+    "Mens E-Mail": 20261029
+  },
+  "extended_split_sizes": {
+    "train": 38399,
+    "validation": 12800,
+    "test": 12801
+  },
+  "extended_test_arm_counts": {
+    "Womens E-Mail": 4278,
+    "No E-Mail": 4262,
+    "Mens E-Mail": 4261
+  },
+  "fixed_matching_audience_selected": 3200,
+  "fixed_matching_audience_history_counts": {
+    "Women's only": 1183,
+    "Men's only": 1159,
+    "Both": 858
+  },
+  "interaction_definition": "(men's minus women's version in men's-only history) minus (men's minus women's version in women's-only history)",
+  "interaction_revenue_per_customer": {
+    "estimate": -0.5773592816029555,
+    "se": 0.7566238675476835,
+    "ci_low": -2.060314811839819,
+    "ci_high": 0.9055962486339079
+  },
+  "nominal_matching_policy_values_per_1000": {
+    "All men's email": 378.70166393250526,
+    "All women's email": 417.3002109210218,
+    "Expected 50/50 versions": 398.0009374267635,
+    "History-matched versions": 230.40895242559176
+  },
+  "bootstrap": {
+    "resamples": 5000,
+    "strata": "randomized email assignment",
+    "seed": 20261029,
+    "fixed": "history-based audience and all message rules"
+  },
+  "limitations": [
+    "Pointwise exploratory intervals; no multiplicity adjustment",
+    "No independent new campaign; original test outcomes previously examined",
+    "CV criterion is spending prediction, not policy revenue",
+    "Matching compares message versions within a common historical-spending audience",
+    "No profits, customer gender, send-time experiment, or isolated message-component effects"
+  ],
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3"
+  },
+  "script_sha256": "bf007c73878dbfa10252e60cf5dc7b22cb6c8142a612f81c108aaea8e5a5d9ad"
+}
